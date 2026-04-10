@@ -1,5 +1,5 @@
 # Threshold & Trustee Management Module
-**Author & Owner**: Nivedan Singh
+**Author & Owner**: Kanishk Kumar
 **Role**: Trustee Node & Key Management Architect
 
 ## Scope & SRS Requirements

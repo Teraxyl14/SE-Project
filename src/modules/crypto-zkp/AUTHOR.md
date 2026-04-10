@@ -1,5 +1,5 @@
 # Zero-Knowledge Proofs Module
-**Author & Owner**: Kaartik Chhajer
+**Author & Owner**: Akshit Arora
 **Role**: ZKP Application Lead
 
 ## Scope & SRS Requirements

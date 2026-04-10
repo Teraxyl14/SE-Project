@@ -1,5 +1,5 @@
 # Post-Quantum Cryptography Module
-**Author & Owner**: Kanishk Kumar
+**Author & Owner**: Nivedan Singh
 **Role**: Post-Quantum Authorization Lead
 
 ## Scope & SRS Requirements

@@ -1,5 +1,5 @@
 # Voting Client UI Module
-**Author & Owner**: Akshit Arora
+**Author & Owner**: Kaartik Chhajer
 **Role**: Frontend Architecture & Voter Experience
 
 ## Scope & SRS Requirements

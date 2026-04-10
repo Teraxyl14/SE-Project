@@ -32,14 +32,14 @@ The architecture of this application is distributed across 8 bounded contexts (`
 
 To study a specific domain, navigate to that member's module directory to find their codebase and an individualized `AUTHOR.md` file.
 
-### 1. Akshit Arora
+### 1. Kaartik Chhajer
 * **Role**: Frontend Architecture & Voter Experience Administrator
 * **SRS Scope**: Voting Client Application, Form State, Route Management.
 * **Component Directory**: `/src/modules/voting-client/`
 * **Study Files**:
   * `index.tsx` (Core UI logic for Phase 2 Casting, and Benaloh Auditing UI integration)
 
-### 2. Kanishk Kumar
+### 2. Nivedan Singh
 * **Role**: Post-Quantum Cryptography & Identity Auth
 * **SRS Scope**: **FR-04** (ML-DSA Post-Quantum Authorization), **NFR-02**, **NFR-06** (Quantum Resistance).
 * **Component Directory**: `/src/modules/crypto-pqc/`
@@ -53,7 +53,7 @@ To study a specific domain, navigate to that member's module directory to find t
 * **Study Files**:
   * `index.ts` (Generates Paillier homomorphic inner-encryptions of selection arrays)
 
-### 4. Kaartik Chhajer
+### 4. Akshit Arora
 * **Role**: Zero-Knowledge Proofs Lead
 * **SRS Scope**: **FR-03** (NIZKP Generation for ballot well-formedness).
 * **Component Directory**: `/src/modules/crypto-zkp/`
@@ -82,7 +82,7 @@ To study a specific domain, navigate to that member's module directory to find t
 * **Study Files**:
   * `index.tsx` (Phase 1 Identity and credential enrollment flows)
 
-### 8. Nivedan Singh
+### 8. Kanishk Kumar
 * **Role**: Election Authority & Threshold Key Management
 * **SRS Scope**: **FR-01** (Distributed Key Generation), Quorum accumulation logic, and final tally decryption.
 * **Component Directory**: `/src/modules/trustee/`
