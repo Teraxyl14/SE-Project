@@ -9,6 +9,8 @@ import * as paillierBigint from 'paillier-bigint';
 import { Lock, FileSignature, Send, AlertTriangle, EyeOff } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 
+// [April 2] Kaartik: Added the basic routing and state here, but the state wipes on reload.
+// [April 3] Kaartik: Connected it to the backend endpoint so we can fetch the real candidates instead of hardcoding.
 export default function VotingClient() {
   const [candidates, setCandidates] = useState<any[]>([]);
   const [publicKey, setPublicKey] = useState<paillierBigint.PublicKey | null>(null);

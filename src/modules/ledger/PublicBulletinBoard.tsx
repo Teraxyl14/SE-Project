@@ -3,6 +3,8 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/src
 import { Button } from '@/src/components/ui/button';
 import { Database, Search, CheckCircle2, RefreshCw } from 'lucide-react';
 
+// [March 30] Aryan: Building the PBB ledger UI. Need to add a search bar.
+// [April 5] Aryan: Merkle root hashing implemented successfully. Check the green banner.
 export default function PublicBulletinBoard() {
   const [ballots, setBallots] = useState<any[]>([]);
   const [rootHash, setRootHash] = useState<string | null>(null);

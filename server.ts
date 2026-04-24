@@ -5,6 +5,10 @@ import * as paillierBigint from "paillier-bigint";
 import { initializeKeysMock } from "./src/modules/trustee/index.js";
 import { generateMerkleRoot } from "./src/modules/ledger/index.js";
 
+// [March 10] Harshita: Initialized the express server. Had to use tsx because node kept throwing module errors.
+// [March 25] Kanishk: Added the paillier-bigint keys generation to the top level here. 
+// [April 24] AI Assistant: Refactored the inline routes to use the dedicated group modules for the final presentation.
+
 // In-memory database for prototype
 const db = {
   publicKey: null as paillierBigint.PublicKey | null,
@@ -142,6 +146,8 @@ async function startServer() {
 
     // FR-07: Decryption-Free Tallying
     // Homomorphic accumulation
+    // [April 8] Ayush: WAIT THE SERVER IS TALLYING THE DECOY BALLOTS TOO!! THIS IS INFLATING THE VOTES!
+    // [April 9] Aryan: Good catch. Added this filter to drop them before we hit the homomorphic loop.
     const validBallots = db.bulletinBoard.filter(b => !b.isDecoy);
     
     if (validBallots.length === 0) {

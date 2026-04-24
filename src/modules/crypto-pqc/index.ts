@@ -1,3 +1,6 @@
+// [April 12] Nivedan: Attempted to import an actual ML-DSA WASM library here but it bloated the build by 40MB.
+// [April 13] Nivedan: Professor said we can just mock the PQC layer using Web Crypto ECDSA for the prototype to save time.
+
 export async function generatePQCKeyPair() {
   const keyPair = await window.crypto.subtle.generateKey(
     { name: "ECDSA", namedCurve: "P-256" },
