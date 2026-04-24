@@ -19,6 +19,7 @@ export default function VotingClient() {
   const [trackerNumber, setTrackerNumber] = useState<string | null>(null);
   const [isDecoy, setIsDecoy] = useState(false);
   const [spoiledData, setSpoiledData] = useState<{nonces: string, selections: any[]}|null>(null);
+  const [errorMsg, setErrorMsg] = useState<string | null>(null);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -33,9 +34,10 @@ export default function VotingClient() {
   }, []);
 
   const handleVote = async () => {
-    if (!selectedCandidate || !publicKey) return;
+    if (!selectedCandidate || !publicKey || isProcessing) return;
     
     setIsProcessing(true);
+    setErrorMsg(null);
     try {
       // 1. Create selection vector (e.g., [1, 0, 0])
       const selections = candidates.map(c => c.id === selectedCandidate ? 1 : 0);
@@ -70,9 +72,12 @@ export default function VotingClient() {
       const result = await response.json();
       if (result.success) {
         setTrackerNumber(result.trackerNumber);
+      } else if (result.error) {
+        setErrorMsg(result.error);
       }
     } catch (error) {
       console.error("Voting failed", error);
+      setErrorMsg("Network error occurred while submitting the ballot.");
     } finally {
       setIsProcessing(false);
     }
@@ -157,6 +162,12 @@ export default function VotingClient() {
             <br/><br/>
             <strong>Current State:</strong> {!selectedCandidate ? 'Awaiting candidate selection.' : isDecoy ? 'Decoy Mode Active: This ballot will be mathematically constructed but ignored by the final tally.' : 'Candidate selected. Ready to encrypt or audit.'}
           </div>
+
+          {errorMsg && (
+            <div className="bg-red-50 p-3 rounded text-sm text-red-800 border border-red-200">
+              <strong>Error:</strong> {errorMsg}
+            </div>
+          )}
 
           <div className="space-y-4">
             <h3 className="font-semibold">Select a Candidate</h3>

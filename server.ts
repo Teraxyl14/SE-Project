@@ -90,10 +90,15 @@ async function startServer() {
 
   app.post("/api/vote", (req, res) => {
     if (db.isElectionClosed) {
-      return res.status(400).json({ error: "Election is closed" });
+      return res.status(400).json({ error: "Election is closed. No further ballots are accepted." });
     }
 
     const { encryptedVote, signature, zkp, isDecoy } = req.body;
+    
+    // Server-side validation to prevent crashes during tallying if payload is malformed
+    if (!Array.isArray(encryptedVote) || encryptedVote.length !== db.candidates.length) {
+      return res.status(400).json({ error: "Invalid ballot structure. Selection vector mismatch." });
+    }
     
     // In a real system, verify signature and ZKP here
     // FR-04: Post-Quantum Authorization
