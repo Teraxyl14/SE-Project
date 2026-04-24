@@ -99,7 +99,22 @@ This project was a massive collaborative effort. To study the codebase, you can 
 
 ---
 
-## 6. Backend Architecture & Transparency
+## 6. Project Development Timeline & Story
+Our journey building this complex cryptographic system wasn't straightforward. Over the course of six weeks, our team navigated mathematical overflows, architectural blocks, and integration bugs. Below is our formal development diary detailing exactly how our specific roles came to life:
+
+* **March 10 (Foundation):** **Harshita** kicked off the project by initializing the Express backend and React boilerplate. She immediately ran into Node module resolution errors, which she resolved by migrating the execution environment to `tsx` (TypeScript Execute). 
+* **March 15 - 18 (The Crypto Bottleneck):** **Marut** began building the Homomorphic Encryption core. His first draft used standard JavaScript `Math.pow()`, but he quickly realized standard floating-point numbers immediately overflow when calculating Paillier modulos. On March 18th, he ripped out the standard math and implemented the `paillier-bigint` package, wrapping all selection vectors in native BigInts to stabilize the system.
+* **March 25 (Key Generation):** With the crypto core stable, **Kanishk** stepped in to establish the Election Authority. He successfully generated the 512-bit Paillier threshold keys on the top level of the server, allowing the backend to act as the central cryptographic trustee.
+* **March 30 - April 5 (Building the Ledger):** **Aryan** started constructing the Public Bulletin Board (PBB). After setting up the UI, he focused on mitigating Equivocation Attacks (Threat 5.1). By April 5th, he successfully engineered the `generateMerkleRoot` function to hash the entire ledger state dynamically.
+* **April 2 - 3 (Frontend Stitching):** **Kaartik** tackled the core Voting Client. Initially, the React state was wiping whenever the page reloaded. He stabilized the routing and then successfully wired the UI to dynamically fetch candidate data from Harshita's Express endpoints rather than hardcoding it.
+* **April 8 - 9 (The Coercion Crisis):** **Ayush** engineered the Coercion Mitigation system, allowing voters to drop "Decoy" ballots. However, on April 8th, he triggered a massive bug: the backend math engine was blindly homomorphically tallying the decoy ballots, artificially inflating the election! The next day, **Aryan** stepped in to help, writing a strict algorithmic filter (`!b.isDecoy`) directly into the accumulation loop to cleanly drop the fake votes before decryption.
+* **April 12 - 13 (Quantum Resistance Hurdles):** **Nivedan** attempted to import a full ML-DSA WASM library for the Post-Quantum cryptography requirement. Unfortunately, this bloated the Vite build by over 40MB, crashing the dev server. After a team vote on April 13th, Nivedan pivoted to mocking the PQC layer using the native Web Crypto API (ECDSA) to save bandwidth for the prototype.
+* **April 15 - 16 (ZKP Compromise):** **Akshit** spent two days trying to write a legitimate Chaum-Pedersen zero-knowledge proof in raw TypeScript to prove ballot well-formedness. Realizing it was practically impossible without a Rust/WASM binding, he mapped out the architectural bounds and mocked the ZKP validation token, ensuring the structural flow of the application remained perfectly intact.
+* **April 24 (Final Polish):** The team brought in an AI Assistant to help refine the CSS, write the overarching educational UI overlays, and generate this presentation README for total transparency.
+
+---
+
+## 7. Backend Architecture & Transparency
 To ensure complete transparency for this presentation, here is exactly how our backend (`server.ts`) operates:
 1. **State Management**: The server utilizes a volatile in-memory database (`db.bulletinBoard`) to simulate a blockchain ledger. This ensures rapid testing without needing a complex PostgreSQL/MongoDB setup.
 2. **Cryptographic Seeding**: On boot, the server automatically injects 20 mathematically verified Paillier-encrypted mock ballots into the ledger to simulate a live, ongoing election environment.
@@ -108,12 +123,12 @@ To ensure complete transparency for this presentation, here is exactly how our b
 
 ---
 
-## 7. AI Assistance Acknowledgment
+## 8. AI Assistance Acknowledgment
 In the final stages of this project (late April), our team utilized AI assistance (Large Language Models) strictly for final code refinements, CSS/UI polishing, and generating this comprehensive SE presentation documentation. All core cryptographic implementations, logic routing, and architectural bounds were developed conceptually by the student team.
 
 ---
 
-## 8. Local Development Setup
+## 9. Local Development Setup
 
 **Prerequisites:** Node.js (v18+)
 
