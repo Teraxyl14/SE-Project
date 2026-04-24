@@ -25,8 +25,47 @@ async function initializeKeys() {
   console.log("Paillier keys generated for election by Trustee Module.");
 }
 
+async function seedDatabase() {
+  console.log("Seeding database with 20 fake ballots for presentation purposes...");
+  if (!db.publicKey) return;
+
+  for (let i = 0; i < 20; i++) {
+    const trackerNumber = "MOCK_" + Math.random().toString(36).substring(2, 10).toUpperCase();
+    
+    // Biased random candidate selection to make tallying interesting
+    const rand = Math.random();
+    let selectedIdx = 0; // 50% for Alice
+    if (rand > 0.5 && rand <= 0.8) selectedIdx = 1; // 30% for Bob
+    else if (rand > 0.8) selectedIdx = 2; // 20% for Charlie
+
+    const selections = [0, 0, 0];
+    selections[selectedIdx] = 1;
+    
+    // Ensure accurate Homomorphic Encryption so backend tallying doesn't crash
+    const encryptedVote = selections.map(s => db.publicKey!.encrypt(BigInt(s)).toString());
+    
+    const signature = "ML_DSA_44_SIG_" + Buffer.from(Math.random().toString()).toString('base64');
+    const zkp = "ZKP_WELL_FORMED_" + Math.random().toString(36).substring(2, 10);
+    const isDecoy = Math.random() > 0.8; // 20% decoy ballots
+
+    db.bulletinBoard.push({
+      id: trackerNumber,
+      timestamp: new Date(Date.now() - Math.floor(Math.random() * 86400000)).toISOString(), // Last 24 hours
+      encryptedVote,
+      signature,
+      zkp,
+      isDecoy
+    });
+  }
+  
+  // Sort chronologically for the PBB
+  db.bulletinBoard.sort((a, b) => new Date(a.timestamp).getTime() - new Date(b.timestamp).getTime());
+  console.log("Database seeded successfully.");
+}
+
 async function startServer() {
   await initializeKeys();
+  await seedDatabase();
 
   const app = express();
   const PORT = 3000;
