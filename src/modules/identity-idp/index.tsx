@@ -45,7 +45,10 @@ export default function VoterRegistration() {
           <CardDescription>Phase 1: Identity Proofing and Key Generation</CardDescription>
         </CardHeader>
         <CardContent className="space-y-6">
-          <div className={`p-4 rounded-lg border ${step >= 1 ? 'bg-blue-50 border-blue-200' : 'bg-gray-50 text-gray-400'}`}>
+          <div className="bg-purple-50 p-3 rounded text-sm text-purple-800 border border-purple-200">
+            <strong>SE Focus:</strong> This phase implements <em>NIST SP 800-63-4</em> Identity Proofing (IAL2) and <em>FR-04</em> Post-Quantum Authorization. The system generates a cryptographic identity locally so the server never sees your private key.
+          </div>
+          <div className={`p-4 rounded-lg border transition-all duration-300 ${step >= 1 ? 'bg-blue-50 border-blue-200' : 'bg-gray-50 text-gray-400 opacity-50'}`}>
             <div className="flex items-center gap-3 mb-2">
               <Fingerprint className={step >= 1 ? 'text-blue-600' : 'text-gray-400'} />
               <h3 className="font-semibold">1. Identity Proofing (IdP)</h3>
@@ -54,10 +57,10 @@ export default function VoterRegistration() {
             {step === 1 && (
               <Button onClick={handleIdentityProofing}>Authenticate via IdP</Button>
             )}
-            {step > 1 && <span className="text-sm font-medium text-green-600 flex items-center gap-1"><ShieldCheck size={16}/> Authenticated (IAL2)</span>}
+            {step > 1 && <span className="text-sm font-medium text-green-600 flex items-center gap-1 mt-3"><ShieldCheck size={16}/> Authenticated (IAL2) - Identity Verified</span>}
           </div>
 
-          <div className={`p-4 rounded-lg border ${step >= 2 ? 'bg-blue-50 border-blue-200' : 'bg-gray-50 text-gray-400'}`}>
+          <div className={`p-4 rounded-lg border transition-all duration-300 ${step >= 2 ? 'bg-blue-50 border-blue-200' : 'bg-gray-50 text-gray-400 opacity-50'}`}>
             <div className="flex items-center gap-3 mb-2">
               <Key className={step >= 2 ? 'text-blue-600' : 'text-gray-400'} />
               <h3 className="font-semibold">2. PQC Key Pair Generation</h3>
@@ -68,12 +71,12 @@ export default function VoterRegistration() {
                 {isGenerating ? 'Generating Keys...' : 'Generate ML-DSA Keys'}
               </Button>
             )}
-            {step > 2 && <span className="text-sm font-medium text-green-600 flex items-center gap-1"><ShieldCheck size={16}/> Keys Generated & Public Key Registered</span>}
+            {step > 2 && <span className="text-sm font-medium text-green-600 flex items-center gap-1 mt-3"><ShieldCheck size={16}/> Keys Generated & Public Key Registered to Authority</span>}
           </div>
         </CardContent>
         {step === 3 && (
-          <CardFooter>
-            <Button className="w-full" onClick={() => navigate('/vote')}>Proceed to Voting Client</Button>
+          <CardFooter className="animate-in fade-in slide-in-from-bottom-2 duration-500">
+            <Button className="w-full bg-green-600 hover:bg-green-700" onClick={() => navigate('/vote')}>Identity Verified - Proceed to Voting Phase</Button>
           </CardFooter>
         )}
       </Card>

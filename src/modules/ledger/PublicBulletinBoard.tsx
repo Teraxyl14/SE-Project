@@ -7,13 +7,16 @@ export default function PublicBulletinBoard() {
   const [ballots, setBallots] = useState<any[]>([]);
   const [rootHash, setRootHash] = useState<string | null>(null);
   const [searchTerm, setSearchTerm] = useState('');
+  const [isRefreshing, setIsRefreshing] = useState(false);
 
   const fetchBallots = () => {
+    setIsRefreshing(true);
     fetch('/api/pbb')
       .then(res => res.json())
       .then(data => {
         setBallots(data.ballots || []);
         setRootHash(data.rootHash || null);
+        setTimeout(() => setIsRefreshing(false), 500); // Simulate realistic network delay for UX
       });
   };
 
@@ -31,14 +34,18 @@ export default function PublicBulletinBoard() {
             <Database className="text-blue-600" size={28} />
             <div>
               <CardTitle>Public Bulletin Board</CardTitle>
-              <CardDescription>Append-only ledger to verify your vote was cast</CardDescription>
+              <CardDescription>Phase 3: Append-only ledger to verify your vote was cast</CardDescription>
             </div>
           </div>
-          <Button variant="outline" size="sm" onClick={fetchBallots} className="flex items-center gap-2 mt-4 sm:absolute sm:right-6 sm:top-6 sm:mt-0">
-            <RefreshCw size={14} /> Refresh Ledger
+          <Button variant="outline" size="sm" onClick={fetchBallots} disabled={isRefreshing} className="flex items-center gap-2 mt-4 sm:absolute sm:right-6 sm:top-6 sm:mt-0">
+            <RefreshCw size={14} className={isRefreshing ? "animate-spin" : ""} /> {isRefreshing ? 'Syncing...' : 'Refresh Ledger'}
           </Button>
         </CardHeader>
         <CardContent>
+          <div className="mb-6 bg-purple-50 p-3 rounded text-sm text-purple-800 border border-purple-200">
+            <strong>SE Focus:</strong> Implementing <em>Threat Mitigation 5.1</em> (Equivocation Attacks). The <strong>State Merkle Root</strong> updates dynamically as ballots are cast, proving that the server hasn't dropped or forked the ledger state maliciously.
+          </div>
+
           {rootHash && (
             <div className="mb-4 p-3 bg-green-50 border border-green-200 rounded-md">
               <p className="text-xs font-semibold text-green-800 uppercase tracking-widest mb-1">State Merkle Root Hash</p>

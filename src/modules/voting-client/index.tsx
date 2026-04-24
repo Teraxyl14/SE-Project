@@ -150,6 +150,12 @@ export default function VotingClient() {
           <CardDescription>Phase 2: Ballot Generation and Double Encryption</CardDescription>
         </CardHeader>
         <CardContent className="space-y-6">
+          <div className="bg-purple-50 p-3 rounded text-sm text-purple-800 border border-purple-200">
+            <strong>SE Focus:</strong> You are actively engaging with <em>FR-02</em> (Homomorphic Encrypted Casting) and <em>FR-03</em> (Zero-Knowledge Proofs).
+            <br/><br/>
+            <strong>Current State:</strong> {!selectedCandidate ? 'Awaiting candidate selection.' : isDecoy ? 'Decoy Mode Active: This ballot will be mathematically constructed but ignored by the final tally.' : 'Candidate selected. Ready to encrypt or audit.'}
+          </div>
+
           <div className="space-y-4">
             <h3 className="font-semibold">Select a Candidate</h3>
             {candidates?.map(candidate => (
@@ -207,7 +213,7 @@ export default function VotingClient() {
             disabled={!selectedCandidate || isProcessing || !publicKey}
             onClick={handleVote}
           >
-            {isProcessing ? 'Processing...' : 'Encrypt & Cast Ballot'}
+            {isProcessing ? 'Processing Cryptography...' : 'Encrypt & Cast Ballot'}
           </Button>
         </CardFooter>
       </Card>

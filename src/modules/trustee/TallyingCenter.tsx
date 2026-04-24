@@ -69,6 +69,10 @@ export default function TallyingCenter() {
           <CardDescription>Phase 4 & 5: Homomorphic Tallying and Threshold Decryption</CardDescription>
         </CardHeader>
         <CardContent className="space-y-6">
+          <div className="bg-purple-50 p-3 rounded text-sm text-purple-800 border border-purple-200">
+            <strong>SE Focus:</strong> Demonstrating <em>FR-07</em> (Decryption-Free Tallying) and <em>FR-01</em> (Distributed Key Generation). The server math engine will multiply all ciphertexts together into one giant ciphertext before decrypting, ensuring individual ballots are never exposed.
+          </div>
+
           <div className="flex items-center justify-between p-4 border rounded-lg bg-gray-50">
             <div>
               <h3 className="font-semibold">Election Status</h3>
@@ -116,8 +120,12 @@ export default function TallyingCenter() {
                 ))}
               </div>
 
+              <div className="bg-yellow-50 p-3 border border-yellow-200 rounded text-xs text-yellow-800 mb-4">
+                <strong>Quorum Required:</strong> Decrypting this aggregate requires simulating a multi-party threshold decryption protocol.
+              </div>
+
               <Button className="w-full bg-purple-600 hover:bg-purple-700" size="lg" onClick={handleThresholdDecryption} disabled={isProcessing}>
-                {isProcessing ? 'Decrypting...' : 'Execute Threshold Decryption Quorum (t, k)'}
+                {isProcessing ? 'Simulating Threshold Decryption...' : 'Execute Threshold Decryption Quorum (t, k)'}
               </Button>
             </div>
           )}
