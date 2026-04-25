@@ -1,50 +1,62 @@
-# E2E-V Voting System: Live Faculty Presentation Script
+# E2E-V Voting System: The Master Presentation Script
 
-To get maximum points, do not just click through the app and say "this is how you vote." Instead, frame the presentation as a **Security Audit**. You want to invite the professor to try and "break" or "manipulate" the system, which will allow your code to actively demonstrate its defensive cryptography.
+This script is designed as an interactive **Live Security Audit**. Instead of just clicking buttons, you will invite the professor to try and "break" the system to prove the cryptography works. 
 
-Here is a 4-step creative presentation flow designed to WOW a Software Engineering professor:
+Every single team member has a dedicated speaking role below that perfectly matches their code contributions and the "Development Timeline" documented in the README.
 
 ---
 
 ## Act 1: The Trust Problem (Identity & Registration)
-* **Who speaks:** Harshita & Nivedan
-* **The Hook:** Start by asking the professor a question: *"In traditional electronic voting, how do we prove who you are without the server retaining a database of your private keys?"*
-* **The Demo:** 
-  1. Open **Phase 1: Registration**.
-  2. Explain that the identity proofing represents a NIST-compliant enrollment. 
-  3. Click "Generate ML-DSA Keys".
-  4. **Crucial talking point:** Emphasize that the keys are generated *locally in the browser*. Explain that the server never sees the private key, ensuring absolute non-repudiation. 
+**Lead Speakers:** Harshita & Nivedan
 
-## Act 2: The Professor's Audit (Benaloh Challenge)
-* **Who speaks:** Kaartik & Akshit
-* **The Hook:** Once on the Voting Client, stop and ask the professor: *"Professor, how do you know our frontend React code isn't secretly flipping your vote to another candidate before it encrypts it? You can't see the code running. You shouldn't have to trust us."*
-* **The Demo:**
-  1. Have the professor select a candidate.
-  2. Instead of clicking "Cast Ballot", tell them to click the **"Spoil & Audit"** button.
-  3. The screen will turn orange and spit out raw cryptographic data. 
-  4. **Crucial talking point:** Explain that this is the **Benaloh Challenge**. The system was forced to tear open the encryption and reveal the underlying randomness (nonces) and selection array. Because the secret was revealed to prove the client isn't cheating, that specific ballot construct is burned and permanently invalid. 
+* **Harshita (The Hook):** 
+  > *"Welcome to our End-to-End Verifiable Voting System. Professor, in traditional voting apps, how do we prove who you are without the server retaining a database of your private keys? You can't. That's why we engineered this differently."*
+  > *(Harshita navigates to Phase 1: Registration and clicks 'Authenticate')* 
+  > *"I built the Identity Provider flow to simulate NIST SP 800-63-4 compliance, ensuring we only let valid voters through the gate."*
 
-## Act 3: The Coercion Scenario (Decoy Ballots)
-* **Who speaks:** Ayush & Aryan
-* **The Hook:** Have the professor hit "Start Over". Set the scene: *"Imagine an attacker is standing right behind you, forcing you to vote for Candidate B. If you don't vote for B, they will hurt you."*
-* **The Demo:**
-  1. Tell the professor to check the **"Cast as Decoy Ballot"** box.
-  2. Select Candidate B and click "Encrypt & Cast". 
-  3. Copy the Tracker Number.
-  4. Navigate to **Phase 3: Public Bulletin Board**.
-  5. Search for the Tracker Number. Show the professor that their encrypted vote is successfully sitting on the immutable ledger. 
-  6. **Crucial talking point:** Tell the professor: *"To the attacker standing behind you, you have cryptographic proof that you voted for B. You are safe. But the system knows the truth."*
-
-## Act 4: The Cryptographic Black Box (Homomorphic Tallying)
-* **Who speaks:** Kanishk & Marut
-* **The Hook:** Navigate to the **Tallying Center**. Explain that the server is currently holding 20+ encrypted ballots (thanks to the background seeding script). *"Normally, a server would decrypt all 20 ballots to count them, destroying voter privacy. We don't."*
-* **The Demo:**
-  1. Click **"Execute Homomorphic Accumulation"**. 
-  2. Show the giant Master Aggregated Ciphertext on the screen.
-  3. **Crucial talking point:** Explain that your backend `paillier-bigint` engine mathematically *multiplied* all 20 ciphertexts together into one giant ciphertext. 
-  4. Finally, hit **"Execute Threshold Decryption"** to reveal the final winner.
-  5. Remind the professor about the Coerced Decoy Ballot they cast earlier. Point out that it was dynamically filtered out before the Homomorphic accumulation began, meaning the attacker's forced vote was mathematically neutralized without them ever knowing. 
+* **Nivedan (The Cryptography):**
+  > *"Once authenticated, we need to generate keys. I implemented the Post-Quantum Cryptography layer using Web Crypto APIs. Professor, notice that the keys are generated locally in your browser. The server NEVER sees your private key, establishing absolute non-repudiation. Initially, I tried importing a heavy ML-DSA WASM library for this, but it bloated our build by 40MB, so we pivoted to an ECDSA mock for this prototype to maintain speed."*
 
 ---
-### Closing Statement
+
+## Act 2: The Professor's Audit (Benaloh Challenge)
+**Lead Speakers:** Kaartik & Akshit
+
+* **Kaartik (The Hook):**
+  > *"Professor, we are now on the Voting Client. But how do you know my frontend React code isn't secretly flipping your vote to another candidate before it encrypts it? You shouldn't have to trust my code. Please select a candidate, and instead of clicking 'Vote', hit 'Spoil & Audit'."*
+  > *(Professor clicks Spoil & Audit. The screen turns orange and spits out data).*
+  > *"This is the Benaloh Challenge. The system was forced to tear open the encryption and reveal the underlying randomness. Because the secret was revealed to prove the client isn't cheating, this specific ballot is now burned and permanently invalid."*
+
+* **Akshit (The Math Proof):**
+  > *"Alongside the Benaloh audit, we also have to prove to the backend that the vote isn't malformed—for example, that you didn't try to submit ten votes at once. I was responsible for the Zero-Knowledge Proof (NIZKP) architecture. While writing a true Chaum-Pedersen proof in raw TypeScript was structurally impossible without a Rust backend, I engineered the validation token architecture that guarantees ballot well-formedness before it leaves the client."*
+
+---
+
+## Act 3: The Coercion Scenario (Decoy Ballots)
+**Lead Speakers:** Ayush & Aryan
+
+* **Ayush (The Hook):**
+  > *(Tell the professor to 'Start Over' and go back to the voting screen).*
+  > *"Imagine an attacker is standing right behind you, holding a weapon, forcing you to vote for Candidate B. Check the 'Cast as Decoy Ballot' box, vote for B, and copy your Tracker Number. I built this Coercion Mitigation Engine so you can generate mathematically valid 'fake' ballots under duress."*
+
+* **Aryan (The Ledger Verification):**
+  > *(Navigate to Phase 3: Public Bulletin Board and search the Tracker Number).*
+  > *"I engineered the Public Bulletin Board. Professor, to the attacker standing behind you, you have cryptographic proof on an immutable ledger that you voted for B. You are safe. Furthermore, I implemented a Merkle Tree Root hash at the top of the screen to mathematically guarantee that our server hasn't branched or dropped the ledger maliciously."*
+
+---
+
+## Act 4: The Cryptographic Black Box (Homomorphic Tallying)
+**Lead Speakers:** Marut & Kanishk
+
+* **Marut (The Homomorphic Engine):**
+  > *(Navigate to Phase 4: Tallying Center).*
+  > *"Right now, our server is holding over 20 encrypted ballots. Normally, a server would decrypt all 20 to count them, destroying voter privacy. We don't. I built the Homomorphic Encryption core using the Paillier Cryptosystem. When we hit 'Homomorphic Accumulation', my backend code literally multiplies all 20 ciphertexts together into one massive ciphertext. Privacy is guaranteed because the individual votes are never opened."*
+
+* **Kanishk (The Big Reveal & Coercion Drop):**
+  > *"I am responsible for the Election Authority and Threshold Key Management. Before we decrypt this final massive ciphertext, I want to point out what happened to the professor's 'Forced/Decoy' ballot. The backend algorithmically filtered out Ayush's decoy ballots before Marut's accumulation even began! The attacker's forced vote was neutralized without them ever knowing."*
+  > *(Kanishk clicks 'Execute Threshold Decryption').*
+  > *"Using a simulated threshold quorum, we combine our private key shards to decrypt ONLY the final tally, revealing the winner without exposing a single voter's identity."*
+
+---
+### Closing Statement (Anyone)
 *"By combining Paillier Homomorphic Encryption, Benaloh Auditing, and Decoy mechanics, we have built an E2E-V system where privacy is mathematically guaranteed, outcomes are universally verifiable, and coercion is structurally impossible. Thank you."*
