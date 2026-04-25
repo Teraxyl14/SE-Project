@@ -101,6 +101,11 @@ async function startServer() {
     res.json({ success: true });
   });
 
+  app.post("/api/election/open", (req, res) => {
+    db.isElectionClosed = false;
+    res.json({ success: true });
+  });
+
   app.get("/api/tally", (req, res) => {
     if (!db.isElectionClosed) {
       return res.status(400).json({ error: "Election is still open" });

@@ -24,6 +24,13 @@ export default function TallyingCenter() {
     fetchStatus();
   };
 
+  const handleOpenElection = async () => {
+    await fetch('/api/election/open', { method: 'POST' });
+    setAggregate(null);
+    setResults(null);
+    fetchStatus();
+  };
+
   const handleHomomorphicTally = async () => {
     setIsProcessing(true);
     try {
@@ -82,8 +89,10 @@ export default function TallyingCenter() {
               <Button variant="outline" onClick={fetchStatus}>
                 <RefreshCw size={14} className="mr-2" /> Refresh
               </Button>
-              {!status.isClosed && (
+              {!status.isClosed ? (
                 <Button variant="destructive" onClick={handleCloseElection}>Close Election</Button>
+              ) : (
+                <Button variant="outline" className="border-orange-500 text-orange-600 hover:bg-orange-50" onClick={handleOpenElection}>Reopen Election</Button>
               )}
             </div>
           </div>
