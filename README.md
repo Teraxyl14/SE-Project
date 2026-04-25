@@ -117,9 +117,8 @@ Our journey building this complex cryptographic system wasn't straightforward. O
 ## 7. Backend Architecture & Transparency
 To ensure complete transparency for this presentation, here is exactly how our backend (`server.ts`) operates:
 1. **State Management**: The server utilizes a volatile in-memory database (`db.bulletinBoard`) to simulate a blockchain ledger. This ensures rapid testing without needing a complex PostgreSQL/MongoDB setup.
-2. **Cryptographic Seeding**: On boot, the server automatically injects 20 mathematically verified Paillier-encrypted mock ballots into the ledger to simulate a live, ongoing election environment.
-3. **Homomorphic Tallying**: When the `/api/tally` endpoint is called, the server DOES NOT decrypt any votes. It iterates through the ciphertexts and uses `paillier-bigint`'s `.addition()` function to mathematically accumulate the encrypted payloads into a single master ciphertext.
-4. **Coercion Filtering**: During tallying, the backend algorithmically detects and drops any ballot flagged with `isDecoy: true` before they are added to the aggregate, silently negating coerced votes.
+2. **Homomorphic Tallying**: When the `/api/tally` endpoint is called, the server DOES NOT decrypt any votes. It iterates through the ciphertexts and uses `paillier-bigint`'s `.addition()` function to mathematically accumulate the encrypted payloads into a single master ciphertext.
+3. **Coercion Filtering**: During tallying, the backend algorithmically detects and drops any ballot flagged with `isDecoy: true` before they are added to the aggregate, silently negating coerced votes.
 
 ---
 

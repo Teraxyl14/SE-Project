@@ -50,7 +50,7 @@ Every single team member has a dedicated speaking role below that perfectly matc
 
 * **Marut (The Homomorphic Engine):**
   > *(Navigate to Phase 4: Tallying Center).*
-  > *"Right now, our server is holding over 20 encrypted ballots. Normally, a server would decrypt all 20 to count them, destroying voter privacy. We don't. I built the Homomorphic Encryption core using the Paillier Cryptosystem. When we hit 'Homomorphic Accumulation', my backend code literally multiplies all 20 ciphertexts together into one massive ciphertext. Privacy is guaranteed because the individual votes are never opened."*
+  > *"Right now, our server is holding all of the encrypted ballots cast so far. Normally, a server would decrypt all the ballots to count them, destroying voter privacy. We don't. I built the Homomorphic Encryption core using the Paillier Cryptosystem. When we hit 'Homomorphic Accumulation', my backend code literally multiplies all the ciphertexts together into one massive ciphertext. Privacy is guaranteed because the individual votes are never opened."*
 
 * **Kanishk (The Big Reveal & Coercion Drop):**
   > *"I am responsible for the Election Authority and Threshold Key Management. Before we decrypt this final massive ciphertext, I want to point out what happened to the professor's 'Forced/Decoy' ballot. The backend algorithmically filtered out Ayush's decoy ballots before Marut's accumulation even began! The attacker's forced vote was neutralized without them ever knowing."*
